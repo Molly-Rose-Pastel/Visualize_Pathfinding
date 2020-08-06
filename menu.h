@@ -5,6 +5,8 @@
 #include <QElapsedTimer>
 #include <QMouseEvent>
 
+#include "node.h"
+
 namespace Ui {
 class Menu;
 }
@@ -22,6 +24,13 @@ public:
     QElapsedTimer timer;
     mouseCursorState mouseState;
     algorithmState selectedAlgorithm;
+
+    Node *(*nodes)[26];
+    Node *startNode;
+    Node *finishNode;
+    QList<Node*> *blockedList;
+    QList<Node*> *forestList;
+    QList<Node*>::iterator iter;
 
     int lastStartCol = 0;
     int lastStartRow = 0;
@@ -45,6 +54,14 @@ private slots:
     void on_animationSpeedSlider_valueChanged(int value);
     void on_wallsCheckbox_stateChanged(int arg1);
     void on_forestCheckbox_stateChanged(int arg1);
+
+    void on_mazeButton_clicked();
+
+    void on_mazeSlider_valueChanged(int value);
+
+    void on_mazeSlider_sliderPressed();
+
+    void on_mazeSlider_sliderReleased();
 
 private:
     Ui::Menu *ui;

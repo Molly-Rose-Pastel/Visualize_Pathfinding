@@ -7,6 +7,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     pMainProgram = new MainProgram();
+    pMainProgram->createObjects();
     pMainProgram->show();
 
     return a.exec();

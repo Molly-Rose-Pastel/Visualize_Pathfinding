@@ -1,7 +1,4 @@
 #include "node.h"
-//#include "game.h"
-
-//extern Game * game;
 
 Node::Node(QGraphicsItem *parent)
 {

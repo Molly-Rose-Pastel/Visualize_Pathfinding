@@ -46,6 +46,17 @@ Menu::Menu(QWidget *parent) :
     ui->wallsButton->setStyleSheet(buttonStyle);
     ui->forestButton->setStyleSheet(buttonStyle);
     ui->pathButton->setStyleSheet(buttonStyle);
+    ui->mazeButton->setStyleSheet(buttonStyle);
+
+    ui->roomsLabel->hide();
+    ui->mazeIncrement->setAttribute(Qt::WA_TransparentForMouseEvents);
+    ui->mazeDecrement->setAttribute(Qt::WA_TransparentForMouseEvents);
+
+    nodes = pMainProgram->navigation->nodes;
+
+    blockedList = &pMainProgram->navigation->blockedList;
+    forestList = &pMainProgram->navigation->forestList;
+
 }
 
 Menu::~Menu()
@@ -76,43 +87,43 @@ void Menu::mousePressEvent(QMouseEvent *event)
             case wall:
                 if(event->buttons() & Qt::LeftButton){
 
-                    if( pMainProgram->nodes[col][row]->isStart ){
+                    if( nodes[col][row]->isStart ){
                         mouseState = start;
                         return;
 
-                    }else if( pMainProgram->nodes[col][row]->isFinish ){
+                    }else if( nodes[col][row]->isFinish ){
                         mouseState = finish;
                         return;
 
-                    }else if(pMainProgram->nodes[col][row]->isForest){
+                    }else if(nodes[col][row]->isForest){
 
                         return;
 
-                    }else if( !pMainProgram->nodes[col][row]->isBlocked ) {
+                    }else if( !nodes[col][row]->isBlocked ) {
 
-                        pMainProgram->nodes[col][row]->setBlocked();
-                        pMainProgram->blockedList.append(pMainProgram->nodes[col][row]);
+                        nodes[col][row]->setBlocked();
+                        blockedList->append(nodes[col][row]);
 
                     }
 
                 }else if(event->buttons() & Qt::RightButton){
 
-                    if( pMainProgram->nodes[col][row]->isStart ){
+                    if( nodes[col][row]->isStart ){
 
                         return;
 
-                    }else if( pMainProgram->nodes[col][row]->isFinish ){
+                    }else if( nodes[col][row]->isFinish ){
 
                         return;
 
-                    }else if(pMainProgram->nodes[col][row]->isForest){
+                    }else if(nodes[col][row]->isForest){
 
                         return;
 
-                    }else if( pMainProgram->nodes[col][row]->isBlocked ) {
+                    }else if( nodes[col][row]->isBlocked ) {
 
-                        pMainProgram->nodes[col][row]->unsetBlocked();
-                        pMainProgram->blockedList.removeOne(pMainProgram->nodes[col][row]);
+                        nodes[col][row]->unsetBlocked();
+                        blockedList->removeOne(nodes[col][row]);
 
                     }
 
@@ -122,39 +133,39 @@ void Menu::mousePressEvent(QMouseEvent *event)
             case forest:
                 if(event->buttons() & Qt::LeftButton){
 
-                    if( pMainProgram->nodes[col][row]->isStart ){
+                    if( nodes[col][row]->isStart ){
                         mouseState = start;
                         return;
 
-                    }else if( pMainProgram->nodes[col][row]->isFinish ){
+                    }else if( nodes[col][row]->isFinish ){
                         mouseState = finish;
                         return;
 
-                    }else if( !pMainProgram->nodes[col][row]->isBlocked ) {
+                    }else if( !nodes[col][row]->isBlocked ) {
 
-                        pMainProgram->nodes[col][row]->setForest();
-                        pMainProgram->forestList.append(pMainProgram->nodes[col][row]);
+                        nodes[col][row]->setForest();
+                        forestList->append(nodes[col][row]);
 
                     }
 
                 }else if(event->buttons() & Qt::RightButton){
 
-                    if( pMainProgram->nodes[col][row]->isStart ){
+                    if( nodes[col][row]->isStart ){
 
                         return;
 
-                    }else if( pMainProgram->nodes[col][row]->isFinish ){
+                    }else if( nodes[col][row]->isFinish ){
 
                         return;
 
-                    }else if( pMainProgram->nodes[col][row]->isBlocked ) {
+                    }else if( nodes[col][row]->isBlocked ) {
 
                         return;
 
-                    }else if( pMainProgram->nodes[col][row]->isForest ) {
+                    }else if( nodes[col][row]->isForest ) {
 
-                        pMainProgram->nodes[col][row]->unsetForest();
-                        pMainProgram->forestList.removeOne(pMainProgram->nodes[col][row]);
+                        nodes[col][row]->unsetForest();
+                        forestList->removeOne(nodes[col][row]);
 
                     }
 
@@ -214,43 +225,43 @@ void Menu::mouseMoveEvent(QMouseEvent *event)
             case wall:
                 if(event->buttons() & Qt::LeftButton){
 
-                    if( pMainProgram->nodes[col][row]->isStart ){
+                    if( nodes[col][row]->isStart ){
 
                         return;
 
-                    }else if( pMainProgram->nodes[col][row]->isFinish ){
+                    }else if( nodes[col][row]->isFinish ){
 
                         return;
 
-                    }else if(pMainProgram->nodes[col][row]->isForest){
+                    }else if(nodes[col][row]->isForest){
 
                         return;
 
-                    }else if( !pMainProgram->nodes[col][row]->isBlocked ) {
+                    }else if( !nodes[col][row]->isBlocked ) {
 
-                        pMainProgram->nodes[col][row]->setBlocked();
-                        pMainProgram->blockedList.append(pMainProgram->nodes[col][row]);
+                        nodes[col][row]->setBlocked();
+                        blockedList->append(nodes[col][row]);
 
                     }
 
                 }else if(event->buttons() & Qt::RightButton){
 
-                    if( pMainProgram->nodes[col][row]->isStart ){
+                    if( nodes[col][row]->isStart ){
 
                         return;
 
-                    }else if( pMainProgram->nodes[col][row]->isFinish ){
+                    }else if( nodes[col][row]->isFinish ){
 
                         return;
 
-                    }else if(pMainProgram->nodes[col][row]->isForest){
+                    }else if(nodes[col][row]->isForest){
 
                         return;
 
-                    }else if( pMainProgram->nodes[col][row]->isBlocked ) {
+                    }else if( nodes[col][row]->isBlocked ) {
 
-                        pMainProgram->nodes[col][row]->unsetBlocked();
-                        pMainProgram->blockedList.removeOne(pMainProgram->nodes[col][row]);
+                        nodes[col][row]->unsetBlocked();
+                        blockedList->removeOne(nodes[col][row]);
 
                     }
 
@@ -260,39 +271,39 @@ void Menu::mouseMoveEvent(QMouseEvent *event)
             case forest:
                 if(event->buttons() & Qt::LeftButton){
 
-                    if( pMainProgram->nodes[col][row]->isStart ){
+                    if( nodes[col][row]->isStart ){
 
                         return;
 
-                    }else if( pMainProgram->nodes[col][row]->isFinish ){
+                    }else if( nodes[col][row]->isFinish ){
 
                         return;
 
-                    }else if( !pMainProgram->nodes[col][row]->isBlocked ) {
+                    }else if( !nodes[col][row]->isBlocked ) {
 
-                        pMainProgram->nodes[col][row]->setForest();
-                        pMainProgram->forestList.append(pMainProgram->nodes[col][row]);
+                        nodes[col][row]->setForest();
+                        forestList->append(nodes[col][row]);
 
                     }
 
                 }else if(event->buttons() & Qt::RightButton){
 
-                    if( pMainProgram->nodes[col][row]->isStart ){
+                    if( nodes[col][row]->isStart ){
 
                         return;
 
-                    }else if( pMainProgram->nodes[col][row]->isFinish ){
+                    }else if( nodes[col][row]->isFinish ){
 
                         return;
 
-                    }else if( pMainProgram->nodes[col][row]->isBlocked ) {
+                    }else if( nodes[col][row]->isBlocked ) {
 
                         return;
 
-                    }else if( pMainProgram->nodes[col][row]->isForest ) {
+                    }else if( nodes[col][row]->isForest ) {
 
-                        pMainProgram->nodes[col][row]->unsetForest();
-                        pMainProgram->forestList.removeOne(pMainProgram->nodes[col][row]);
+                        nodes[col][row]->unsetForest();
+                        forestList->removeOne(nodes[col][row]);
 
                     }
 
@@ -301,15 +312,15 @@ void Menu::mouseMoveEvent(QMouseEvent *event)
 
             case start:
 
-                if( !pMainProgram->nodes[col][row]->isBlocked &&
-                        !pMainProgram->nodes[col][row]->isFinish &&
-                        !pMainProgram->nodes[col][row]->isForest){
+                if( !nodes[col][row]->isBlocked &&
+                        !nodes[col][row]->isFinish &&
+                        !nodes[col][row]->isForest){
 
-                    pMainProgram->nodes[lastStartCol][lastStartRow]->unsetStart();
-                    pMainProgram->nodes[col][row]->setStart();
+                    nodes[lastStartCol][lastStartRow]->unsetStart();
+                    nodes[col][row]->setStart();
                     lastStartCol = col;
                     lastStartRow = row;
-                    pMainProgram->start = pMainProgram->nodes[col][row];
+                    startNode = nodes[col][row];
 
                 }
 
@@ -317,15 +328,15 @@ void Menu::mouseMoveEvent(QMouseEvent *event)
 
             case finish:
 
-                if( !pMainProgram->nodes[col][row]->isBlocked &&
-                        !pMainProgram->nodes[col][row]->isStart &&
-                        !pMainProgram->nodes[col][row]->isForest){
+                if( !nodes[col][row]->isBlocked &&
+                        !nodes[col][row]->isStart &&
+                        !nodes[col][row]->isForest){
 
-                    pMainProgram->nodes[lastFinishCol][lastFinishRow]->unsetFinish();
-                    pMainProgram->nodes[col][row]->setFinish();
+                    nodes[lastFinishCol][lastFinishRow]->unsetFinish();
+                    nodes[col][row]->setFinish();
                     lastFinishCol = col;
                     lastFinishRow = row;
-                    pMainProgram->finish = pMainProgram->nodes[col][row];
+                    finishNode = nodes[col][row];
 
                 }
 
@@ -377,24 +388,29 @@ void Menu::on_startButton_clicked()
 {
     if(!pMainProgram->isSearching){
 
-        pMainProgram->loopCount = 0;
+        pMainProgram->bfs->loopCount = 0;
+        pMainProgram->dfs->loopCount = 0;
+        pMainProgram->best->loopCount = 0;
+        pMainProgram->dijkstra->loopCount = 0;
+        pMainProgram->astar->loopCount = 0;
+
         on_pathButton_clicked();
 
         switch(selectedAlgorithm){
         case bfs:
-            pMainProgram->start_BreadthFirstSearch();
+            pMainProgram->bfs->startAlgorithm();
             break;
         case dfs:
-            pMainProgram->start_DepthFirstSearch();;
+            pMainProgram->dfs->startAlgorithm();;
             break;
         case best:
-            pMainProgram->start_BestFirstSearch();
+            pMainProgram->best->startAlgorithm();
             break;
         case dijkstra:
-            pMainProgram->start_Dijkstra();
+            pMainProgram->dijkstra->startAlgorithm();
             break;
         case astar:
-            pMainProgram->start_Astar();
+            pMainProgram->astar->startAlgorithm();
             break;
 
         default:break;
@@ -405,18 +421,20 @@ void Menu::on_startButton_clicked()
 
 void Menu::on_wallsButton_clicked()
 {
+
+
     if(!pMainProgram->isSearching){
 
         on_pathButton_clicked();
 
-        pMainProgram->iter = pMainProgram->blockedList.begin();
-        while(pMainProgram->iter != pMainProgram->blockedList.end()){
+        iter = blockedList->begin();
+        while(iter != blockedList->end()){
 
-            (*pMainProgram->iter)->unsetBlocked();
-            ++pMainProgram->iter;
+            (*iter)->unsetBlocked();
+            ++iter;
 
         }
-        pMainProgram->blockedList.clear();
+        blockedList->clear();
 
     }
 }
@@ -427,14 +445,14 @@ void Menu::on_forestButton_clicked()
 
         on_pathButton_clicked();
 
-        pMainProgram->iter = pMainProgram->forestList.begin();
-        while(pMainProgram->iter != pMainProgram->forestList.end()){
+        iter = forestList->begin();
+        while(iter != forestList->end()){
 
-            (*pMainProgram->iter)->unsetForest();
-            ++pMainProgram->iter;
+            (*iter)->unsetForest();
+            ++iter;
 
         }
-        pMainProgram->forestList.clear();
+        forestList->clear();
 
     }
 }
@@ -443,55 +461,29 @@ void Menu::on_pathButton_clicked()
 {
     if(!pMainProgram->isSearching){
 
-        /* clear pathway list */
-        if(!pMainProgram->pathway.empty()){
-            pMainProgram->pathway.clear();
-        }
-
-        /* clear frontier list */
-        if(!pMainProgram->frontier.empty()){
-            pMainProgram->frontier.clear();
-        }
-
         /* reset colors of nodes */
         for(int col = 0; col < 40; col++){
             for(int row = 0; row < 26; row++){
-                if(pMainProgram->nodes[col][row] != pMainProgram->start &&
-                        pMainProgram->nodes[col][row] != pMainProgram->finish &&
-                        !pMainProgram->nodes[col][row]->isBlocked &&
-                        !pMainProgram->nodes[col][row]->isForest){
+                if(nodes[col][row] != startNode &&
+                        nodes[col][row] != finishNode &&
+                        !nodes[col][row]->isBlocked &&
+                        !nodes[col][row]->isForest){
 
-                    pMainProgram->nodes[col][row]->unsetBlocked();
+                    nodes[col][row]->unsetBlocked();
 
                 }
             }
         }
 
-        /* reset cameFrom Matrix */
-        for(int col = 0; col < 40; col++){
-            for(int row = 0; row < 26; row++){
-                pMainProgram->cameFrom[col][row] = nullptr;
-            }
-        }
+        /* clear path */
 
-        /* set visited to NULL */
-        for(int cols = 0; cols < 40; cols++){
-            for(int rows = 0; rows < 26; rows++){
-                pMainProgram->visited[cols][rows] = nullptr;
-            }
-        }
+        pMainProgram->bfs->clearPath();
+        pMainProgram->dfs->clearPath();;
+        pMainProgram->best->clearPath();
+        pMainProgram->dijkstra->clearPath();
+        pMainProgram->astar->clearPath();
 
-        /* clear cost_so_far */
-        pMainProgram->cost_so_far.clear();
 
-        /* destroy and clear lines */
-        pMainProgram->lineIter = pMainProgram->lines.begin();
-        while(pMainProgram->lineIter != pMainProgram->lines.end()){
-            QGraphicsLineItem *pHelp = pMainProgram->lines.first();
-            delete pHelp;
-            pMainProgram->lineIter = pMainProgram->lines.erase(pMainProgram->lineIter);
-        }
-        pMainProgram->lines.clear();
     }
 
 }
@@ -499,9 +491,17 @@ void Menu::on_pathButton_clicked()
 void Menu::on_animationSpeedSlider_valueChanged(int value)
 {
     if(value == 100){
-        pMainProgram->timerSpeed = 0;
+        pMainProgram->bfs->timerSpeed = 0;
+        pMainProgram->dfs->timerSpeed = 0;
+        pMainProgram->best->timerSpeed = 0;
+        pMainProgram->dijkstra->timerSpeed = 0;
+        pMainProgram->astar->timerSpeed = 0;
     }else{
-        pMainProgram->timerSpeed = (int)100/value;
+        pMainProgram->bfs->timerSpeed = (int)100/value;
+        pMainProgram->dfs->timerSpeed = (int)100/value;
+        pMainProgram->best->timerSpeed = (int)100/value;
+        pMainProgram->dijkstra->timerSpeed = (int)100/value;
+        pMainProgram->astar->timerSpeed = (int)100/value;
     }
 }
 
@@ -519,4 +519,31 @@ void Menu::on_forestCheckbox_stateChanged(int arg1)
         mouseState = forest;
         ui->wallsCheckbox->setChecked(false);
     }
+}
+
+void Menu::on_mazeButton_clicked()
+{
+    if(!pMainProgram->isSearching and !pMainProgram->mazeGen->isGeneratingMaze){
+
+        on_pathButton_clicked();
+        pMainProgram->mazeGen->generateMaze();
+
+    }
+}
+
+void Menu::on_mazeSlider_valueChanged(int value)
+{
+    pMainProgram->mazeGen->n = value;
+    ui->roomsLabel->setText("rooms<br>" + QString::number(pow(2,value)));
+}
+
+void Menu::on_mazeSlider_sliderPressed()
+{
+
+    ui->roomsLabel->show();
+}
+
+void Menu::on_mazeSlider_sliderReleased()
+{
+    ui->roomsLabel->hide();
 }

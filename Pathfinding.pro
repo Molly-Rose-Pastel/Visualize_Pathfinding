@@ -17,14 +17,30 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     MainProgram.cpp \
+    astar.cpp \
+    bestfs.cpp \
+    bfs.cpp \
+    dfs.cpp \
+    dijkstra.cpp \
     main.cpp \
+    mazegenerator.cpp \
     menu.cpp \
-    node.cpp
+    navigationdata.cpp \
+    node.cpp \
+    pathfindingalgorithm.cpp
 
 HEADERS += \
     MainProgram.h \
+    astar.h \
+    bestfs.h \
+    bfs.h \
+    dfs.h \
+    dijkstra.h \
+    mazegenerator.h \
     menu.h \
-    node.h
+    navigationdata.h \
+    node.h \
+    pathfindingalgorithm.h
 
 FORMS += \
     menu.ui
